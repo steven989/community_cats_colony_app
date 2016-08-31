@@ -1,0 +1,151 @@
+<script>
+var play;
+$(function(){
+
+      // Query form
+
+      $('input[type=radio]').off('change').on('change',update_form_info_based_on_query_type);
+
+      function update_form_info_based_on_query_type() {
+        var selected_radio_button = $('input[type=radio]:checked');
+        // origin input
+          var origin_input = $('#origin');
+        // origin label
+          var origin_label = $("label[for='origin']");
+        // parameter input
+          var parameter_input = $('#query_parameter');
+        // parameter label
+          var parameter_label = $("label[for='query_parameter']");
+
+        if (selected_radio_button.val() == 'distance_limit') {
+          origin_input.show();
+          origin_label.show();
+          parameter_input.show();
+          parameter_label.show();
+          // Make lookup address mandatory
+          origin_input.prop('required',true);
+          // Change parameter label 
+          parameter_label.html('Look up colonies within (km)');
+          // Change parameter to 5
+          parameter_input.prop('required',true).val(5);
+        } else if (selected_radio_button.val() == 'closest_colonies') {
+          origin_input.show();
+          origin_label.show();
+          parameter_input.show();
+          parameter_label.show();
+          // Make lookup address mandatory
+          origin_input.prop('required',true);
+          // Change parameter label 
+          parameter_label.html('Number of closest colonies');
+          // Change parameter to 3
+          parameter_input.prop('required',true).val(3);
+        } else {
+          // Make lookup address blank and hide
+          origin_input.prop('required',false).val('').hide();
+          // Hide look up address label 
+          origin_label.hide();
+          // Make pamater blank and hide
+          parameter_input.prop('required',false).hide();
+          // Hide parameter label
+          parameter_label.hide();
+        }
+
+      }
+
+      $('#query_form').off('submit').on('submit',submit_colony_lookup_query);
+
+      function submit_colony_lookup_query() {
+        event.preventDefault();
+        var submit_button = $(this).find('input[type=submit]');
+        var submit_button_width = submit_button.outerWidth();
+
+        submit_button.css('width',submit_button_width).prop('disabled', true).val('Wait...');
+
+
+        $.ajax({
+          url: $(this).attr('action'),
+          type: 'POST',
+          data: $(this).serialize(),
+          dataType: 'JSON'
+        }).done(process_query_result);      
+      }
+
+
+      // Display Map
+
+      var marker_array = [];
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('display_map'), {
+          center: {lat: 43.6532, lng: -79.3832},
+          zoom: 10,
+          scrollwheel: false
+        });
+      }
+
+      initMap();
+
+      // callback function after query
+      function process_query_result(result){
+        var bounds  = new google.maps.LatLngBounds();
+        marker_array.forEach(function(marker){marker.setMap(null)});
+        marker_array = [];
+        play = result;
+
+        // original address
+        if (result.origin != undefined) {
+          marker_array.push(
+            new google.maps.Marker({
+              position: {lat:result.origin.lat, lng:result.origin.lng},
+              map:map,
+              animation: google.maps.Animation.DROP,
+              icon: "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=O&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+            })
+          );
+          var loc = new google.maps.LatLng({lat:result.origin.lat, lng:result.origin.lng});
+          bounds.extend(loc);          
+        }
+
+        // returned addresses 
+        var counter = 1;
+        result.data.forEach(function(colony){
+          marker_array.push(
+            new google.maps.Marker({
+              position: {lat:colony.lat, lng:colony.lng},
+              map:map,
+              label: counter.toString(),
+              animation: google.maps.Animation.DROP
+            })
+          );
+          var loc = new google.maps.LatLng({lat:colony.lat, lng:colony.lng});
+          bounds.extend(loc);
+          counter++;
+        });
+        map.fitBounds(bounds);
+        map.panToBounds(bounds);
+
+        $('#query_form').find('input[type=submit]').prop('disabled', false).val('Look Up Colonies');
+      }
+})
+
+</script>
+
+<%= form_tag look_up_query_path, method: 'POST', id: 'query_form' do %>
+  <%= label_tag :query_type, "Query Type" %><br>
+  <%= radio_button_tag :query_type, :distance_limit, checked: true %>
+  <%= label_tag :query_type_distance_limit, "Distance Limit" %><br>
+  <%= radio_button_tag :query_type, :closest_colonies %>
+  <%= label_tag :query_type_closest_colonies, "Closest Colonies" %><br>
+  <%= radio_button_tag :query_type, :all_colonies %>
+  <%= label_tag :query_type_all_colonies, "All Colonies" %><br>
+  <%= label_tag :origin, "Lookup Address" %>
+  <%= text_field_tag :origin %><br>
+  <%= label_tag :query_parameter, "Look up colonies within (km)" %>
+  <%= text_field_tag :query_parameter, 5 %><br>
+  <%= submit_tag 'Look Up Colonies' %>
+<% end %>
+
+
+<div id="display_map" style="height:500px;">
+  
+</div>

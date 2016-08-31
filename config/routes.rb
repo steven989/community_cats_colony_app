@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
-  resources :colonies
-
+  root to: 'colonies#look_up_root'
+  get 'colonies/look_up_root' => 'colonies#look_up_root', as: 'look_up_colonies'
+  post 'colonies/look_up_query' => 'colonies#look_up_query', as: 'look_up_query'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
