@@ -26,8 +26,8 @@ $(function(){
           origin_input.prop('required',true);
           // Change parameter label 
           parameter_label.html('Look up colonies within (km)');
-          // Change parameter to 5
-          parameter_input.prop('required',true).val(5);
+          // Change parameter to 2
+          parameter_input.prop('required',true).val(2);
         } else if (selected_radio_button.val() == 'closest_colonies') {
           origin_input.show();
           origin_label.show();
@@ -37,8 +37,8 @@ $(function(){
           origin_input.prop('required',true);
           // Change parameter label 
           parameter_label.html('Number of closest colonies');
-          // Change parameter to 3
-          parameter_input.prop('required',true).val(3);
+          // Change parameter to 5
+          parameter_input.prop('required',true).val(5);
         } else {
           // Make lookup address blank and hide
           origin_input.prop('required',false).val('').hide();
@@ -179,25 +179,43 @@ $(function(){
 
 </script>
 
-<%= form_tag look_up_query_path, method: 'POST', id: 'query_form' do %>
-  <%= label_tag :query_type, "Query Type" %><br>
-  <%= radio_button_tag :query_type, :distance_limit, checked: true %>
-  <%= label_tag :query_type_distance_limit, "Distance Limit" %><br>
-  <%= radio_button_tag :query_type, :closest_colonies %>
-  <%= label_tag :query_type_closest_colonies, "Closest Colonies" %><br>
-  <%= radio_button_tag :query_type, :all_colonies %>
-  <%= label_tag :query_type_all_colonies, "All Colonies" %><br>
-  <%= label_tag :origin, "Lookup Address" %>
-  <%= text_field_tag :origin %><br>
-  <%= label_tag :query_parameter, "Look up colonies within (km)" %>
-  <%= text_field_tag :query_parameter, 5 %><br>
-  <%= submit_tag 'Look Up Colonies' %>
-<% end %>
+<div class="row" >
+  <div class="col-lg-3" style="padding:30px 0 0 30px;">
+    <%= form_tag look_up_query_path, method: 'POST', id: 'query_form' do %>
+      <div class='form-group' >
+        <b style="font-size:14px;">Lookup Type</b><br>
+        <%= radio_button_tag :query_type, :distance_limit, checked: true %>
+        <%= label_tag :query_type_distance_limit, "Distance Limit" %><br>
 
+        <%= radio_button_tag :query_type, :closest_colonies %>        
+        <%= label_tag :query_type_closest_colonies, "Closest Colonies" %><br>
 
-<div id="display_map" style="height:500px;">
-  
+        <%= radio_button_tag :query_type, :all_colonies %>
+        <%= label_tag :query_type_all_colonies, "All Colonies" %>
+      </div>
+      <div class='form-group' >
+        <%= label_tag :origin, "Lookup Address" %>
+        <%= text_field_tag :origin,nil, class: 'form-control', required:true %>
+      </div>
+      <div class='form-group' >
+        <%= label_tag :query_parameter, "Look up colonies within (km)" %>
+        <%= number_field_tag :query_parameter, 2, class: 'form-control', step:'any' %>
+      </div>
+      <div class='form-group' >
+        <%= submit_tag 'Look Up Colonies', class:'btn btn-success' %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-lg-9">
+    <div id="display_map" style="height:100vh;">
+    </div>
+  </div>
 </div>
+
+
+
+
+
 
 
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog">
