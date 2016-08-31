@@ -67,12 +67,11 @@ $(function(){
           type: 'POST',
           data: $(this).serialize(),
           dataType: 'JSON'
-        }).done(process_query_result);      
+        }).done(process_query_result);
       }
 
 
-      // Display Map
-
+      // Display Map and address auto complete
       var marker_array = [];
       var map;
       function initMap() {
@@ -84,6 +83,14 @@ $(function(){
       }
 
       initMap();
+
+      function initAutocomplete() {
+
+      var input = document.getElementById('origin');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+      autocomplete.bindTo('bounds', map);
+      }
+      initAutocomplete();
 
       // callback function after query
       function process_query_result(result){
@@ -107,25 +114,67 @@ $(function(){
         }
 
         // returned addresses 
-        var counter = 1;
         result.data.forEach(function(colony){
-          marker_array.push(
-            new google.maps.Marker({
+          
+          var marker = new google.maps.Marker({
               position: {lat:colony.lat, lng:colony.lng},
               map:map,
-              label: counter.toString(),
-              animation: google.maps.Animation.DROP
-            })
-          );
+              label: "C",
+              animation: google.maps.Animation.DROP,
+              clickable:true
+            });
+
+          // if ($('input[type=radio]:checked').val() == 'distance_limit' || $('input[type=radio]:checked').val() == 'closest_colonies') { 
+            marker.info = new google.maps.InfoWindow({
+              content: 'Caretaker: '+colony.caretaker_name+'<br>Email: '+colony.email+'<br>Address: '+colony.full_address+'<br>Phone: '+colony.phone+'<br>Year Active: '+colony.year_active+'<br>Distance: '+(Math.round( colony.distance * 10)/10)+' km<br><a href="/colonies/'+(colony.id)+'/edit" class="marker_clickable">More details</a>'
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              marker.info.open(map, marker);
+            });
+
+            google.maps.event.addListener(marker.info, 'domready', function() {
+              $('.marker_clickable').off('click').on('click',ajaxForm);
+            });
+          // }
+          marker_array.push(marker);
           var loc = new google.maps.LatLng({lat:colony.lat, lng:colony.lng});
           bounds.extend(loc);
-          counter++;
         });
         map.fitBounds(bounds);
         map.panToBounds(bounds);
-
         $('#query_form').find('input[type=submit]').prop('disabled', false).val('Look Up Colonies');
       }
+
+      // Ajax modal retrieval and population (for edit colony)
+
+      function ajaxForm() {
+        event.preventDefault();
+        $.ajax({
+          url: $(this).attr('href'),
+          type: 'GET',
+          dataType: 'HTML'
+        }).done(function(data){
+            $('#formModal .modal-content').html(data);
+            $('#formModal').modal({show:true});
+            $("#formModal").animate({
+                scrollTop: 0
+            }, 500);
+            autocomplete_within_form();
+            // formRetrievalAjax();
+        });
+      }
+
+      function autocomplete_within_form() {
+        var elements = document.getElementsByClassName("address_autocomplete");
+        Array.prototype.forEach.call(elements, function(element) {
+          var autocomplete = new google.maps.places.Autocomplete(element);
+          autocomplete.bindTo('bounds', map);
+        });
+      }
+
+
+
+
 })
 
 </script>
@@ -148,4 +197,12 @@ $(function(){
 
 <div id="display_map" style="height:500px;">
   
+</div>
+
+
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+  </div>
 </div>

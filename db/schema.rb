@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830223957) do
+ActiveRecord::Schema.define(version: 20160831144413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,13 +184,14 @@ ActiveRecord::Schema.define(version: 20160830223957) do
     t.text     "would_you_be_interested_in_helping_other_colony_caretakers"
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false
-    t.boolean  "secondary_member_of_org_or_rescue_org"
+    t.text     "secondary_member_of_org_or_rescue_org"
     t.integer  "number_days_of_recovery_male"
     t.float    "neighbourhood_statisfaction_to_cats"
     t.integer  "neighbourhood_satisfaction_to_you_and_tnr_efforts"
     t.float    "lat"
     t.float    "lng"
     t.float    "distance"
+    t.text     "how_to_find_colony_at_address"
   end
 
   add_index "colonies", ["lat", "lng"], name: "index_colonies_on_lat_and_lng", using: :btree

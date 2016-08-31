@@ -4,6 +4,20 @@ class ColoniesController < ApplicationController
 
     end
 
+    def edit
+        @colony = Colony.find(params[:id])
+
+        respond_to do |format|
+          format.html {
+            render partial: 'view'
+          }      
+        end
+    end
+
+    def admin_update
+        
+    end
+
     def look_up_query
         query_type = params[:query_type]
         origin = params[:origin]

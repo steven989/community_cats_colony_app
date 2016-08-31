@@ -1,0 +1,699 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title" id="myModalLabel">Colony Details</h4>
+</div>
+<%= form_for @colony, url: admin_update_colony_path(@colony, method: :put), html: {class: 'ajax_form'} do |f| %>
+  <div class="modal-body">
+    <div class="accordion" id="details_form_accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#details_form_accordion" href="#collapseOne">
+                  <b>Basic information</b>
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            
+            <div class='form-group' >
+                <%= f.label :colony_street_address %> 
+                <%= f.text_field  :colony_street_address, class: 'form-control address_autocomplete', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_to_find_colony_at_address %> 
+                <%= f.text_area  :how_to_find_colony_at_address, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_email %> 
+                <%= f.text_field  :primary_email, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_first_name %> 
+                <%= f.text_field  :primary_first_name, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_last_name %> 
+                <%= f.text_field  :primary_last_name, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_phone %> 
+                <%= f.text_field  :primary_phone, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_cell_or_work_number %> 
+                <%= f.text_field  :primary_cell_or_work_number, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :primary_alternate_email %> 
+                <%= f.text_field  :primary_alternate_email, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_first_name %> 
+                <%= f.text_field  :secondary_first_name, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_last_name %> 
+                <%= f.text_field  :secondary_last_name, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_phone %> 
+                <%= f.text_field  :secondary_phone, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_cell %> 
+                <%= f.text_field  :secondary_cell, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_email %> 
+                <%= f.text_field  :secondary_email, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_alternate_email %> 
+                <%= f.text_field  :secondary_alternate_email, class: 'form-control', rows:'2' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#details_form_accordion" href="#collapseTwo">
+                  <b>Other Key Information</b>
+          </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <div class='form-group' >
+                <%= f.label :year_active %> 
+                <%= f.number_field :year_active, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_name %> 
+                <%= f.text_area  :colony_name, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_city %> 
+                <%= f.text_area  :colony_city, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_intersection_first_street %> 
+                <%= f.text_area  :colony_intersection_first_street, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_intersection_second_street %> 
+                <%= f.text_area  :colony_intersection_second_street, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_ward %> 
+                <%= f.text_field :colony_ward, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_setting %> 
+                <%= f.text_area  :colony_setting, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :is_colony_registered_with_another_organization %> 
+                <%= f.text_area  :is_colony_registered_with_another_organization, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :registered_with_which_organization %> 
+                <%= f.text_area  :registered_with_which_organization, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :member_of_org_or_rescue_org %> 
+                <%= f.text_area  :member_of_org_or_rescue_org, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :which_organization %> 
+                <%= f.text_area  :which_organization, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :attended_feral_colony_workshop %> 
+                <%= f.text_area  :attended_feral_colony_workshop, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :which_org_or_rescue_org %> 
+                <%= f.text_area  :which_org_or_rescue_org, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :have_you_attended_workshop_on_feral_cat_management %> 
+                <%= f.text_area  :have_you_attended_workshop_on_feral_cat_management, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_know_previous_caretaker %> 
+                <%= f.text_area  :do_you_know_previous_caretaker, class: 'form-control', rows:'2' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#details_form_accordion" href="#collapseThree">
+                  <b>Survey Details</b>
+          </a>
+        </div>
+        <div id="collapseThree" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <div class='form-group' >
+                <%= f.label :male_count %> 
+                <%= f.number_field :male_count, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_count %> 
+                <%= f.number_field :female_count, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_count %> 
+                <%= f.number_field :undetermined_count, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_count %> 
+                <%= f.number_field :kitten_count, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_deaths_natural %> 
+                <%= f.number_field :male_deaths_natural, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_deaths_suspicious %> 
+                <%= f.number_field :male_deaths_suspicious, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_deaths_euthanasia %> 
+                <%= f.number_field :male_deaths_euthanasia, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_deaths_predator %> 
+                <%= f.number_field :male_deaths_predator, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_deaths_car_or_accident %> 
+                <%= f.number_field :male_deaths_car_or_accident, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_deaths_natural %> 
+                <%= f.number_field :female_deaths_natural, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_deaths_suspicious %> 
+                <%= f.number_field :female_deaths_suspicious, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_deaths_euthanasia %> 
+                <%= f.number_field :female_deaths_euthanasia, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_deaths_predator %> 
+                <%= f.number_field :female_deaths_predator, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_deaths__car_or_accident %> 
+                <%= f.number_field :female_deaths__car_or_accident, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_deaths_natural %> 
+                <%= f.number_field :undetermined_deaths_natural, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_deaths_suspicious %> 
+                <%= f.number_field :undetermined_deaths_suspicious, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_deaths_euthanasia %> 
+                <%= f.number_field :undetermined_deaths_euthanasia, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_deaths_predator %> 
+                <%= f.number_field :undetermined_deaths_predator, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_deaths_car_or_accident %> 
+                <%= f.number_field :undetermined_deaths_car_or_accident, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_deaths_natural %> 
+                <%= f.number_field :kitten_deaths_natural, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_deaths_suspicious %> 
+                <%= f.number_field :kitten_deaths_suspicious, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_deaths_euthanasia %> 
+                <%= f.number_field :kitten_deaths_euthanasia, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_deaths_predator %> 
+                <%= f.number_field :kitten_deaths_predator, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_deaths_car_or_accident %> 
+                <%= f.number_field :kitten_deaths_car_or_accident, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_disappearances %> 
+                <%= f.number_field :male_disappearances, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_disappearances %> 
+                <%= f.number_field :female_disappearances, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :undetermined_disappearances %> 
+                <%= f.number_field :undetermined_disappearances, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kitten_disappearances %> 
+                <%= f.number_field :kitten_disappearances, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_have_problems_with_predators %> 
+                <%= f.text_area  :do_you_have_problems_with_predators, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :coyote_problems %> 
+                <%= f.text_area  :coyote_problems, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :racoon_problems %> 
+                <%= f.text_area  :racoon_problems, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :other_predator_problems %> 
+                <%= f.text_area  :other_predator_problems, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_male_cats_added_to_colony %> 
+                <%= f.number_field :number_of_male_cats_added_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_female_cats_added_to_colony %> 
+                <%= f.number_field :number_of_female_cats_added_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_undetermined_cats_added_to_colony %> 
+                <%= f.number_field :number_of_undetermined_cats_added_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :were_tnrd_cats_returned_to_colony %> 
+                <%= f.text_area  :were_tnrd_cats_returned_to_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :were_tnrd_cats_documentedphotographed %> 
+                <%= f.text_area  :were_tnrd_cats_documentedphotographed, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :spayed %> 
+                <%= f.number_field :spayed, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :neutered %> 
+                <%= f.number_field :neutered, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :early_age_spaying %> 
+                <%= f.text_area  :early_age_spaying, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :early_age_neutering %> 
+                <%= f.text_area  :early_age_neutering, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :where_were_cats_sn %> 
+                <%= f.text_area  :where_were_cats_sn, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :why_did_you_use_the_sn_services_you_did %> 
+                <%= f.text_area  :why_did_you_use_the_sn_services_you_did, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_long_to_get_sn_appointment %> 
+                <%= f.text_area  :how_long_to_get_sn_appointment, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :most_cats_sn_at_one_time %> 
+                <%= f.number_field :most_cats_sn_at_one_time, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_did_you_get_to_clinic %> 
+                <%= f.text_area  :how_did_you_get_to_clinic, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :did_you_have_other_drivers %> 
+                <%= f.text_area  :did_you_have_other_drivers, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :where_did_cats_recover %> 
+                <%= f.text_area  :where_did_cats_recover, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_did_cats_recover %> 
+                <%= f.text_area  :how_did_cats_recover, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_days_of_recovery_female %> 
+                <%= f.text_area  :number_days_of_recovery_female, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_days_of_recovery_kittens %> 
+                <%= f.text_area  :number_days_of_recovery_kittens, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :were_cats_eartipped %> 
+                <%= f.text_area  :were_cats_eartipped, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :were_cats_vaccinated %> 
+                <%= f.text_area  :were_cats_vaccinated, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :were_cats_microchipped %> 
+                <%= f.text_area  :were_cats_microchipped, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_returned_to_colony %> 
+                <%= f.number_field :male_returned_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_returned_to_colony %> 
+                <%= f.number_field :female_returned_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kittens_returned_to_colony %> 
+                <%= f.number_field :kittens_returned_to_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :male_fostered_adopted %> 
+                <%= f.text_area  :male_fostered_adopted, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :female_fostered_adopted %> 
+                <%= f.text_area  :female_fostered_adopted, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :kittens_fostered_adopted %> 
+                <%= f.text_area  :kittens_fostered_adopted, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :trapping_resources %> 
+                <%= f.text_area  :trapping_resources, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_owned_traps %> 
+                <%= f.number_field :number_of_owned_traps, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_borrowed_traps %> 
+                <%= f.number_field :number_of_borrowed_traps, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :borrowed_traps_from_where %> 
+                <%= f.text_area  :borrowed_traps_from_where, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :borrowed_carriers_for_what_purpose %> 
+                <%= f.text_area  :borrowed_carriers_for_what_purpose, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :did_you_have_help_trapping %> 
+                <%= f.text_area  :did_you_have_help_trapping, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_people_helpd_you_trap %> 
+                <%= f.number_field :how_many_people_helpd_you_trap, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :trappers_came_from_where %> 
+                <%= f.text_area  :trappers_came_from_where, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :total_sn_expenses_to_date %> 
+                <%= f.number_field :total_sn_expenses_to_date, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :expenses_to_date_for_medical_care_or_emergencies %> 
+                <%= f.number_field :expenses_to_date_for_medical_care_or_emergencies, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :colony_expenses_per_week %> 
+                <%= f.number_field :colony_expenses_per_week, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :received_money_or_free_food_to_help %> 
+                <%= f.text_area  :received_money_or_free_food_to_help, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :issues_you_have_with_neighbours_etc %> 
+                <%= f.text_area  :issues_you_have_with_neighbours_etc, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :free_roaming_cats_in_area %> 
+                <%= f.text_area  :free_roaming_cats_in_area, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :owned_but_unaltered_allowed_to_roam %> 
+                <%= f.text_area  :owned_but_unaltered_allowed_to_roam, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :are_cats_abandoned_near_your_colony %> 
+                <%= f.text_area  :are_cats_abandoned_near_your_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_of_cats_abandoned_per_year_near_colony %> 
+                <%= f.number_field :number_of_cats_abandoned_per_year_near_colony, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :did_you_try_to_educate_neighbours_about_tnr %> 
+                <%= f.text_area  :did_you_try_to_educate_neighbours_about_tnr, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :neighbourhood_advised_re_tnr_occuring %> 
+                <%= f.text_area  :neighbourhood_advised_re_tnr_occuring, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :did_you_advise_others_not_to_feed_cats %> 
+                <%= f.text_area  :did_you_advise_others_not_to_feed_cats, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :did_you_advise_neighbourhood_how_successful_tnr_is %> 
+                <%= f.text_area  :did_you_advise_neighbourhood_how_successful_tnr_is, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_did_you_advise_neighbours_re_tnr_success %> 
+                <%= f.text_area  :how_did_you_advise_neighbours_re_tnr_success, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :cats_threatened_poisoned_or_killed %> 
+                <%= f.text_area  :cats_threatened_poisoned_or_killed, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :you_or_family_been_threatenedharmed %> 
+                <%= f.text_area  :you_or_family_been_threatenedharmed, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :home_or_property_vandalized_due_to_cats %> 
+                <%= f.text_area  :home_or_property_vandalized_due_to_cats, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :police_bylaw_enforcement_or_animal_services_contacted %> 
+                <%= f.text_area  :police_bylaw_enforcement_or_animal_services_contacted, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :what_was_the_issue_for_police_etc %> 
+                <%= f.text_area  :what_was_the_issue_for_police_etc, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :was_issue_resolved %> 
+                <%= f.text_area  :was_issue_resolved, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :is_local_govmt_feral_friendly %> 
+                <%= f.text_area  :is_local_govmt_feral_friendly, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :local_govmt_supports_tnr %> 
+                <%= f.text_area  :local_govmt_supports_tnr, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_does_local_govmt_support_tnr %> 
+                <%= f.text_area  :how_does_local_govmt_support_tnr, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_have_help_caring_for_colony %> 
+                <%= f.text_area  :do_you_have_help_caring_for_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_often_do_others_help %> 
+                <%= f.text_area  :how_often_do_others_help, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_do_others_help_you %> 
+                <%= f.text_area  :how_do_others_help_you, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_often_do_you_feed_the_colony %> 
+                <%= f.text_area  :how_often_do_you_feed_the_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :what_time_of_day_do_you_feed_colony %> 
+                <%= f.text_area  :what_time_of_day_do_you_feed_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :feed_in_dishes %> 
+                <%= f.text_area  :feed_in_dishes, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :fed_open_station %> 
+                <%= f.text_area  :fed_open_station, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :fed_building %> 
+                <%= f.text_area  :fed_building, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :feeding_station %> 
+                <%= f.text_area  :feeding_station, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :fed_covered_station %> 
+                <%= f.text_area  :fed_covered_station, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :feed_in_dishes_on_ground %> 
+                <%= f.text_area  :feed_in_dishes_on_ground, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :food_directly_on_ground %> 
+                <%= f.text_area  :food_directly_on_ground, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :feed_in_other_circumstances %> 
+                <%= f.text_area  :feed_in_other_circumstances, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_feed_wet_food %> 
+                <%= f.text_field :do_you_feed_wet_food, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_feed_dry_food %> 
+                <%= f.text_area  :do_you_feed_dry_food, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_feed_supplementsvitamins %> 
+                <%= f.text_area  :do_you_feed_supplementsvitamins, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_feed_naturopathic_or_other %> 
+                <%= f.text_area  :do_you_feed_naturopathic_or_other, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_shelters_are_in_place %> 
+                <%= f.number_field :how_many_shelters_are_in_place, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_styrofoam_shelters %> 
+                <%= f.number_field :how_many_styrofoam_shelters, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_plastic_lined_with_styrofoam %> 
+                <%= f.number_field :how_many_plastic_lined_with_styrofoam, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_wooden_shelters %> 
+                <%= f.number_field :how_many_wooden_shelters, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_cardboard_shelters %> 
+                <%= f.number_field :how_many_cardboard_shelters, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :how_many_other_shelters_in_place %> 
+                <%= f.number_field :how_many_other_shelters_in_place, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_change_straw_in_spring_and_fall %> 
+                <%= f.text_area  :do_you_change_straw_in_spring_and_fall, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :do_you_have_difficulty_finding_straw %> 
+                <%= f.text_area  :do_you_have_difficulty_finding_straw, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :overall_condition_of_colony %> 
+                <%= f.text_area  :overall_condition_of_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :disease_or_ongoing_health_concerns_in_colony %> 
+                <%= f.text_area  :disease_or_ongoing_health_concerns_in_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :describe_ongoing_cat_health_concerns_briefly %> 
+                <%= f.text_area  :describe_ongoing_cat_health_concerns_briefly, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :are_you_a_member_of_toronto_feral_cat_yahoo_group %> 
+                <%= f.text_area  :are_you_a_member_of_toronto_feral_cat_yahoo_group, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :are_you_a_member_of_toronto_feral_cat_facebook_group %> 
+                <%= f.text_area  :are_you_a_member_of_toronto_feral_cat_facebook_group, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :are_you_a_member_of_toronto_feral_cat_other_group %> 
+                <%= f.text_area  :are_you_a_member_of_toronto_feral_cat_other_group, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :interested_in_seminar_on_caretaker_burnout %> 
+                <%= f.text_area  :interested_in_seminar_on_caretaker_burnout, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :interested_in_seminar_on_situational_awareness %> 
+                <%= f.text_area  :interested_in_seminar_on_situational_awareness, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :interested_in_self_defence %> 
+                <%= f.text_area  :interested_in_self_defence, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :any_suggestions_for_other_seminars %> 
+                <%= f.text_area  :any_suggestions_for_other_seminars, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :what_support_would_help_you_with_your_colony %> 
+                <%= f.text_area  :what_support_would_help_you_with_your_colony, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :what_is_your_greatest_challenge %> 
+                <%= f.text_area  :what_is_your_greatest_challenge, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :would_you_be_interested_in_helping_other_colony_caretakers %> 
+                <%= f.text_area  :would_you_be_interested_in_helping_other_colony_caretakers, class: 'form-control', rows:'2' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :secondary_member_of_org_or_rescue_org %> 
+                <%= f.text_area :secondary_member_of_org_or_rescue_org, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :number_days_of_recovery_male %> 
+                <%= f.number_field :number_days_of_recovery_male, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :neighbourhood_statisfaction_to_cats %> 
+                <%= f.number_field :neighbourhood_statisfaction_to_cats, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :neighbourhood_satisfaction_to_you_and_tnr_efforts %> 
+                <%= f.number_field :neighbourhood_satisfaction_to_you_and_tnr_efforts, class: 'form-control' %>
+            </div>
+            <div class='form-group' >
+                <%= f.label :issues_found %> 
+                <%= f.text_area  :issues_found, class: 'form-control', rows:'2' %>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit class: "btn btn-success form_submit" %>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+<% end %>

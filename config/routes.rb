@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   root to: 'colonies#look_up_root'
   get 'colonies/look_up_root' => 'colonies#look_up_root', as: 'look_up_colonies'
   post 'colonies/look_up_query' => 'colonies#look_up_query', as: 'look_up_query'
+  get 'colonies/:id/edit' => 'colonies#edit', as: 'edit_colony'
+  put 'colonies/:id/admin_update' => 'colonies#admin_update', as: 'admin_update_colony'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
