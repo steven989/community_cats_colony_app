@@ -1,5 +1,4 @@
 <script>
-var play;
 $(function(){
 
       // Query form
@@ -94,58 +93,64 @@ $(function(){
 
       // callback function after query
       function process_query_result(result){
-        var bounds  = new google.maps.LatLngBounds();
-        marker_array.forEach(function(marker){marker.setMap(null)});
-        marker_array = [];
-        play = result;
+        if (result.status == "success") {
+            $('#query_submit_alert').html('').addClass('hidden');
+            var bounds  = new google.maps.LatLngBounds();
+            marker_array.forEach(function(marker){marker.setMap(null)});
+            marker_array = [];
 
-        // original address
-        if (result.origin != undefined) {
-          marker_array.push(
-            new google.maps.Marker({
-              position: {lat:result.origin.lat, lng:result.origin.lng},
-              map:map,
-              animation: google.maps.Animation.DROP,
-              icon: "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=O&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
-            })
-          );
-          var loc = new google.maps.LatLng({lat:result.origin.lat, lng:result.origin.lng});
-          bounds.extend(loc);          
+            // original address
+            if (result.origin != undefined) {
+              marker_array.push(
+                new google.maps.Marker({
+                  position: {lat:result.origin.lat, lng:result.origin.lng},
+                  map:map,
+                  animation: google.maps.Animation.DROP,
+                  icon: "https://mts.googleapis.com/vt/icon/name=icons/spotlight/spotlight-waypoint-a.png&text=O&psize=16&font=fonts/Roboto-Regular.ttf&color=ff333333&ax=44&ay=48&scale=1"
+                })
+              );
+              var loc = new google.maps.LatLng({lat:result.origin.lat, lng:result.origin.lng});
+              bounds.extend(loc);          
+            }
+
+            // returned addresses 
+            result.data.forEach(function(colony){
+              
+              var marker = new google.maps.Marker({
+                  position: {lat:colony.lat, lng:colony.lng},
+                  map:map,
+                  label: "C",
+                  animation: google.maps.Animation.DROP,
+                  clickable:true
+                });
+
+              // if ($('input[type=radio]:checked').val() == 'distance_limit' || $('input[type=radio]:checked').val() == 'closest_colonies') { 
+                marker.info = new google.maps.InfoWindow({
+                  content: 'Caretaker: '+colony.caretaker_name+'<br>Email: '+colony.email+'<br>Address: '+colony.full_address+'<br>Phone: '+colony.phone+'<br>Year Active: '+colony.year_active+'<br>Distance: '+(Math.round( colony.distance * 10)/10)+' km<br><a href="/colonies/'+(colony.id)+'/edit" class="marker_clickable">More details</a>'
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                  marker.info.open(map, marker);
+                });
+
+                google.maps.event.addListener(marker.info, 'domready', function() {
+                  $('.marker_clickable').off('click').on('click',ajaxForm);
+                });
+              // }
+              marker_array.push(marker);
+              var loc = new google.maps.LatLng({lat:colony.lat, lng:colony.lng});
+              bounds.extend(loc);
+            });
+            map.fitBounds(bounds);
+            map.panToBounds(bounds);
+        } else {
+          $('#query_submit_alert').html(result.message).removeClass('hidden');
         }
-
-        // returned addresses 
-        result.data.forEach(function(colony){
-          
-          var marker = new google.maps.Marker({
-              position: {lat:colony.lat, lng:colony.lng},
-              map:map,
-              label: "C",
-              animation: google.maps.Animation.DROP,
-              clickable:true
-            });
-
-          // if ($('input[type=radio]:checked').val() == 'distance_limit' || $('input[type=radio]:checked').val() == 'closest_colonies') { 
-            marker.info = new google.maps.InfoWindow({
-              content: 'Caretaker: '+colony.caretaker_name+'<br>Email: '+colony.email+'<br>Address: '+colony.full_address+'<br>Phone: '+colony.phone+'<br>Year Active: '+colony.year_active+'<br>Distance: '+(Math.round( colony.distance * 10)/10)+' km<br><a href="/colonies/'+(colony.id)+'/edit" class="marker_clickable">More details</a>'
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-              marker.info.open(map, marker);
-            });
-
-            google.maps.event.addListener(marker.info, 'domready', function() {
-              $('.marker_clickable').off('click').on('click',ajaxForm);
-            });
-          // }
-          marker_array.push(marker);
-          var loc = new google.maps.LatLng({lat:colony.lat, lng:colony.lng});
-          bounds.extend(loc);
-        });
-        map.fitBounds(bounds);
-        map.panToBounds(bounds);
         $('#query_form').find('input[type=submit]').prop('disabled', false).val('Look Up Colonies');
       }
 
-      // Ajax modal retrieval and population (for edit colony)
+      // Ajax modal retrieval and population (for create, edit colony)
+
+      $('.pullAjaxForm').off('click').on('click',ajaxForm);
 
       function ajaxForm() {
         event.preventDefault();
@@ -205,6 +210,13 @@ $(function(){
         <%= submit_tag 'Look Up Colonies', class:'btn btn-success' %>
       </div>
     <% end %>
+    
+    <a href="<%= users_path %>" class='pullAjaxForm'>Manage Access</a><br>
+    <a href="<%= new_colony_path %>" class='pullAjaxForm'>Add Colony</a><br>
+    <a href="<%= logout_path %>">Logout</a>
+    <div class="alert alert-danger hidden" id='query_submit_alert' style="margin-top: 10px;">
+    </div>    
+    
   </div>
   <div class="col-lg-9">
     <div id="display_map" style="height:100vh;">

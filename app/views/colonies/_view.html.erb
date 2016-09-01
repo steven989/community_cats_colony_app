@@ -1,8 +1,40 @@
+<script>
+
+  $('.ajax_form').off('submit').on('submit',admin_update_colony);
+
+  function admin_update_colony() {
+    event.preventDefault();
+    var submit_button = $(this).find('input[type=submit]');
+    var submit_button_originalValue = submit_button.val();
+    var submit_button_width = submit_button.outerWidth();
+
+    submit_button.css('width',submit_button_width).prop('disabled', true).val('Wait...');
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: $(this).attr('method'),
+      data: $(this).serialize(),
+      dataType: 'JSON'
+    }).done(function(data){
+        if (data.status == 'success') {
+            $('#formModal').modal('hide');
+        } else {
+            $('#formModal .alert').html(data.message);
+            $('#formModal .alert').removeClass('hidden');
+        }
+        submit_button.prop('disabled', false).val(submit_button_originalValue);
+    });
+
+  }
+
+
+</script>
+
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <h4 class="modal-title" id="myModalLabel">Colony Details</h4>
 </div>
-<%= form_for @colony, url: admin_update_colony_path(@colony, method: :put), html: {class: 'ajax_form'} do |f| %>
+<%= form_for @colony, url: @route, method: @method, html: {class: 'ajax_form'} do |f| %>
   <div class="modal-body">
     <div class="accordion" id="details_form_accordion">
       <div class="accordion-group">
@@ -691,8 +723,13 @@
           </div>
         </div>
       </div>
+    <div class="alert alert-danger hidden" style="margin-top: 10px;">
+    </div>    
   </div>
   <div class="modal-footer">
+    <% if @action == "edit" %>
+        <a href="<%= delete_colony_path(@colony) %>" data-method="delete" class="btn btn-danger">Delete Colony</a>
+    <% end %>
     <%= f.submit class: "btn btn-success form_submit" %>
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
   </div>

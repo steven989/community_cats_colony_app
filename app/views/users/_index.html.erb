@@ -1,0 +1,60 @@
+<script>
+    
+    $('.pullAjaxFormInModal').off('click').on('click',ajaxForminModal);
+
+    function ajaxForminModal() {
+        event.preventDefault();
+        $.ajax({
+          url: $(this).attr('href'),
+          type: 'GET',
+          dataType: 'HTML'
+        }).done(function(data){
+            $('#formModal .modal-content').html(data);
+            $('#formModal').modal({show:true});
+            $("#formModal").animate({
+                scrollTop: 0
+            }, 500);
+        });
+    }
+</script>
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title" id="myModalLabel">Look Up App Users <a href="<%= invite_user_path %>" class="btn btn-default pullAjaxFormInModal">Add User</a></h4>
+</div>
+<div class="modal-body">
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Date Joined</th>
+                <th>Role</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                    <td><%= user[:email] %></td>
+                    <td><%= user[:created_at].strftime("%Y-%m-%d") + (" (invite date)" if user[:status]=='pending').to_s %></td>
+                    <td><%= user[:role] %></td>
+                    <td>
+                        <% unless user[:email] == current_user.email %>
+                            <% if user[:status] == 'current' %>
+                                <a href="<%= user_path(user[:id]) %>" data-method="delete">Delete User</a>
+                            <% else %>
+                                <a href="<%= delete_token_path(user[:id]) %>" data-method="delete">Delete Invite</a>
+                            <% end %>
+                            
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="alert alert-danger hidden" style="margin-top: 10px;">
+    </div>    
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

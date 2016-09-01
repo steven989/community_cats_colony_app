@@ -1,0 +1,72 @@
+<script>
+    
+    $('.back_button').on('click',goBack)
+
+    function goBack(){
+        $.ajax({
+          url: '<%= users_path %>',
+          type: 'GET',
+          dataType: 'HTML'
+        }).done(function(data){
+            $('#formModal .modal-content').html(data);
+            $('#formModal').modal({show:true});
+            $("#formModal").animate({
+                scrollTop: 0
+            }, 500);
+        });
+    }
+
+    $('.pullAjaxFormInModal').on('submit',ajaxForminModal);
+    function ajaxForminModal() {
+        event.preventDefault();
+
+        var submit_button = $(this).find('input[type=submit]');
+        var submit_button_originalValue = submit_button.val();
+        var submit_button_width = submit_button.outerWidth();
+
+        submit_button.css('width',submit_button_width).prop('disabled', true).val('Wait...');
+
+        $.ajax({
+          url: $(this).attr('action'),
+          type: 'POST',
+          data: $(this).serialize(),
+          dataType: 'JSON'
+        }).done(function(data){
+          if (data.status == "success") {
+            $('.pullAjaxFormInModal .alert-info').html(data.message).removeClass('hidden');
+            setTimeout(goBack,3000);
+          } else {
+            $('.pullAjaxFormInModal .alert-danger').html(data.message).removeClass('hidden');
+          }
+          submit_button.prop('disabled', false).val(submit_button_originalValue);
+        });
+    }
+</script>
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title" id="myModalLabel">Invite User</h4>
+</div>
+<%= form_tag send_invite_path, method: 'POST', class:'pullAjaxFormInModal' do %>
+<div class="modal-body">   
+      <div class='form-group' >
+        <%= label_tag :email, "Email", required:true %>
+        <%= text_field_tag :email,nil, class: 'form-control', required:true %>
+      </div>
+      <div class='form-group' >
+        <%= label_tag :role, "Role" %>
+        <div class="form-control">
+          Admin  
+        </div>
+      </div>
+    <div class="alert alert-info hidden" style="margin-top: 10px;">
+    </div>
+    <div class="alert alert-danger hidden" style="margin-top: 10px;">
+    </div>
+</div>
+<div class="modal-footer">
+<%= submit_tag 'Send Invite', class:'btn btn-success' %>
+<button type="button" class="btn btn-default back_button">Back</button>
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+<% end %>
