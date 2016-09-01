@@ -47,6 +47,9 @@ class UsersController < ApplicationController
     if User.where(email:email).length > 0
       status = 'fail'
       message = 'This user already exists'
+    elsif UserToken.where(email:email).length > 0
+      status = 'fail'
+      message = 'There''s already a pending invite for this user'
     else
       begin
         token_object = UserToken.create_token(email,"admin")
