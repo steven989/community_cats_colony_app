@@ -4,7 +4,11 @@ class UsersController < ApplicationController
 
   def login
         seed = rand(0...100)
-        @background_photo = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed].urls["small"]
+        search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+        while search_result.blank?
+          search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+        end
+        @background_photo = search_result.urls["small"]
   end
 
   # GET /users
@@ -73,7 +77,13 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     seed = rand(0...100)
-    @background_photo = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed].urls["small"]
+
+    search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+    while search_result.blank?
+      search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+    end
+    @background_photo = search_result.urls["small"]
+    
     invite = params[:invite]
     @token = UserToken.find_by_token(invite)
 
