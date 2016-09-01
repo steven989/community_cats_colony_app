@@ -19,11 +19,16 @@ skip_before_filter :require_login
   def edit
     seed = rand(0...100)
 
-    search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
-    while search_result.blank?
-      search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+    begin 
+      for i in 0..10
+        search_result = Unsplash::Photo.search("cats", page=1, per_page = 100)[seed]
+        break unless search_result.blank?
+      end
+    rescue => error
+      @background_photo = nil
+    else
+      search_result.blank? ? @background_photo = nil : @background_photo = search_result.urls["small"]
     end
-    @background_photo = search_result.urls["small"]
 
 
     @token = params[:id]
