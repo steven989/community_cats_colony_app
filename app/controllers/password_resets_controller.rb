@@ -25,7 +25,7 @@ skip_before_filter :require_login
     else
       search_result.blank? ? @background_photo = nil : @background_photo = search_result.urls["small"]
     end
-
+    
 
     @token = params[:id]
     @user = User.load_from_reset_password_token(params[:id])

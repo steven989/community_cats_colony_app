@@ -1,6 +1,6 @@
 <style>
 body{
-    background: #eee url(<%= @background_photo %>);
+    background: #eee url(<%= @background_photo || asset_path('backup-background-image.jpeg') %>);
     background-size: cover;
     background-repeat: no-repeat;
 }
