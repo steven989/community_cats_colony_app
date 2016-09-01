@@ -43,7 +43,11 @@ gem 'sorcery', '~> 0.9.1'
 #background photos
 gem 'unsplash'
 
+#use Puma server
+gem 'puma'
 
+# Timeout
+gem 'rack-timeout'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
