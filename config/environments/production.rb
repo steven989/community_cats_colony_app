@@ -49,7 +49,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Default host for Action Mailer
-  config.action_mailer.default_url_options = {host: 'https://community-cats-colony-app.herokuapp.com/'}
+  config.action_mailer.default_url_options = {host: 'https://community-cats-colony-app.herokuapp.com'}
   
 
   # Prepend all log lines with the following tags.
