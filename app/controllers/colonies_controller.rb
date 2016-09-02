@@ -1,5 +1,5 @@
 class ColoniesController < ApplicationController
-    before_action :require_login
+    before_action :require_login, except: [:ping]
 
     def look_up_root
         #no variables needed here
