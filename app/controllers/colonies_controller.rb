@@ -61,6 +61,10 @@ class ColoniesController < ApplicationController
         end
     end
 
+    def ping
+        render :nothing => true, :status => 200, :content_type => 'text/html'
+    end
+
     def edit
         @colony = Colony.find(params[:id])
         @action = "edit"

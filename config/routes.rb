@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post 'users/send_invite' => 'users#send_invite', as: 'send_invite'
   resources :users
   delete 'users/delete_token/:id' => 'users#delete_token', as: 'delete_token'
-
+  get 'colonies/ping' => 'colonies#ping', as: 'ping_colony'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
