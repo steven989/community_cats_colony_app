@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   delete 'users/delete_token/:id' => 'users#delete_token', as: 'delete_token'
   get 'colonies/ping' => 'colonies#ping', as: 'ping_colony'
 
+  get 'lookup_colony' => 'caretakers#lookup_colony', as: 'public_lookup_colony'
+  post 'caretakers/query_colony' => 'caretakers#query', as: 'public_query_colony'
+  post 'caretakers/email_admin' => 'caretakers#email_admin', as: 'public_query_email_admin'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

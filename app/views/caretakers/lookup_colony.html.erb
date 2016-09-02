@@ -1,0 +1,211 @@
+<style>
+
+body{
+    background: #eee url(<%= @background_photo || asset_path('backup-background-image.jpeg') %>);
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center
+}
+
+html,body{
+    position: relative;
+    height: 100%;
+}
+
+  .form-box input {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    height:50px;
+    /*border: 1px solid #ccc;*/
+    border: none;
+    background: #fafafa;
+    transition:0.2s ease-in-out;
+}
+
+  .modal-body .form-group {
+    text-align: left;
+  }
+  .email-popup-fields{
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    transition:0.2s ease-in-out;
+}
+
+  input.email-popup-fields{
+    height: 30px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.form-box input:focus, .form-box textarea:focus{
+    outline: 0;
+    background: #eee;
+}
+
+.form-box .btn.search_button{
+    /*border: 1px solid #565656;*/
+    border: none;
+    transition:0.2s ease-in-out;
+    height:50px;
+}
+
+.form-box .btn.search_button:hover {
+    background-color: #55afca !important;
+    border-color: #43afd0 !important;
+}
+
+
+
+#emailModal .btn.send_email:hover {
+    background-color: #55afca !important;
+    border-color: #43afd0 !important;
+}
+
+
+
+</style>
+
+<script>
+$(function(){
+    var query_address;
+    function initAutocomplete() {
+
+    var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(43.6532, -79.3832)
+      );
+
+    var input = document.getElementById('origin');
+    var options = {bounds: defaultBounds}
+    var autocomplete = new google.maps.places.Autocomplete(input,options);
+    }
+    initAutocomplete();
+
+    $('#public_query_box').on('submit',public_colony_query);
+
+    function public_colony_query(){
+      event.preventDefault();
+      query_address = $(this).find('#origin').val();
+      var submit_button = $(this).find('input[type=submit]');
+      var submit_button_width = submit_button.outerWidth();
+
+      submit_button.css('width',submit_button_width).prop('disabled', true).val('Wait...');
+
+      $.ajax({
+        statusCode: {
+                      500: function() {
+                        process_query_result({status:"fail",messages:{status_message:"Encountered unknown error"}})
+                      }
+                    },
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: $(this).serialize(),
+        dataType: 'JSON'
+      }).done(process_query_result);
+
+    }
+
+    function process_query_result(result){
+      $('#public_query_box').find('input[type=submit]').prop('disabled', false).val('Search');
+      if(result.status=="success") {
+        $('#result_message .panel-heading span').html('We found some colonies')
+        $('#result_message .panel-body').html(result.messages.distance_message+result.messages.colony_number_message+"<br><br>For privacy reasons we do not provide the exact details of these colonies. If you would like to be connected to their caretakers, please <u><b><a href='#email' class='launch_email_modal'>click here to email us</a></b></u> and we'll be happy to connect you. Note that it's possible that some of our colony information is out-of-date. We will try our best to connect.<br><br><u><b><a href='#email' class='launch_email_modal'>Click to Email</a></b></u>")
+        $('#result_message').removeClass('panel-danger').removeClass('panel-default').addClass('panel-default').removeClass('hidden');
+          email_popup();
+      } else {
+        $('#result_message .panel-heading span').html('Uh oh...')
+        $('#result_message .panel-body').html(result.messages.status_message+"<br><br> Please try again ")
+        $('#result_message').removeClass('panel-danger').removeClass('panel-default').addClass('panel-danger').removeClass('hidden')
+
+        
+      }
+    }
+
+    function email_popup() {
+      $('.launch_email_modal').off('click').on('click',function(){
+        $('#emailModal textarea').val("Hi there, I'm interested in connecting with other colony caretakers around me. My address is "+query_address+". Thanks!")
+        $('#emailModal').modal({show:true})
+
+      });
+    }
+
+    // Send email
+    $('#email_admin').on('submit',function(){
+      event.preventDefault();
+      var submit_button = $(this).find('input[type=submit]');
+
+      submit_button.prop('disabled', true).val('Wait...');
+
+
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: $(this).serialize(),
+        dataType: 'JSON'
+      }).done(function(result){
+        if(result.status == "success") {
+          $('#emailModal .alert').html(result.message).removeClass('alert-danger').removeClass('alert-success').addClass('alert-success').removeClass('hidden');
+          submit_button.prop('disabled', false).val("Send Email");
+            setTimeout(function(){
+              $('#emailModal').modal('hide');
+            },3000);
+        } else {
+          $('#emailModal .alert').html(result.message).removeClass('alert-danger').removeClass('alert-success').addClass('alert-danger').removeClass('hidden');
+            submit_button.prop('disabled', false).val("Send Email");
+        }
+      });      
+    })
+
+
+})
+</script>
+
+<div class="form-container" style="display:inline-block; width:45%; margin-top:250px;">
+    <%= form_tag public_query_colony_path, method: 'POST', class: 'form-box', id:'public_query_box' do %>
+      <div class='input-group' >
+        <%= text_field_tag :origin,nil, class: 'form-control', required:true, placeholder:"Type your address here to look up colonies around it", style:"font-size:17px;" %>
+        <span class="input-group-btn">
+          <%= submit_tag 'Search', class:'btn btn-default search_button', style:"background-color:#565656;color:white;" %>
+        </span>
+      </div>
+      <div class='panel hidden' id='result_message' style="margin-top: 20px;" >
+        <div class="panel-heading">
+          <span style="font-size: 15px;font-weight:bold;"></span>
+        </div>
+        <div class="panel-body" style="text-align: left; ">
+        </div>
+      </div>
+    <% end %>
+</div>
+
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <%= form_tag public_query_email_admin_path, method: 'POST', class: 'form-box', id:'email_admin' do %>
+          <div class="modal-header" style="text-align:left;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Email Us</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <%= label_tag :email, 'Your email (required)' %>
+              <%= text_field_tag :email,nil, class: 'form-control email-popup-fields', required:true, style:"font-size:17px;" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :message, 'Your message (make sure the address is specified here)' %>
+              <%= text_area_tag :message,nil,class: "form-control email-popup-fields", rows: "6" %>
+            </div>
+            <div class="alert hidden" style="margin-top: 10px;">
+            </div>    
+            <div class="form-group">
+              <%= submit_tag 'Send Email', class:'btn btn-success send_email' ,style:'background-color:#5bc0de; border-color:#46b8da;' %>
+            </div>
+          </div>
+          
+        <% end %>
+      </div>
+  </div>
+</div>

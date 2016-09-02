@@ -26,7 +26,21 @@ class GeneralMailer < ApplicationMailer
          :subject => "Invite to join the Community Cats colony app") do |format|
       format.html
     end 
-
   end
+
+
+  def colony_connect(email,message)
+    @message = message
+    admin_email = ENV['ADMIN_EMAIL']
+
+    mail(
+         :from => email,
+         :reply_to => email,
+         :to => admin_email,
+         :subject => "Request to connect with other colony managers") do |format|
+      format.html
+    end 
+  end
+
 
 end

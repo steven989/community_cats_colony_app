@@ -52,6 +52,9 @@ gem 'rack-timeout'
 # New Relic
 gem 'newrelic_rpm'
 
+# validate email address
+gem 'email_validator'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
